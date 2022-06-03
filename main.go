@@ -75,7 +75,10 @@ func main() {
 		// 仅访问域
 
 		collector.AllowedDomains = []string{"telegra.ph"}
+		//设置代理
 		collector.SetProxy(Socks5ProxyUrl)
+		//设置请求超时时间
+		collector.SetRequestTimeout(120 * time.Second)
 	})
 
 	// 限制采集规则
@@ -148,6 +151,7 @@ func main() {
 	//图片下载出错
 	imageCollector.OnError(func(response *colly.Response, err error) {
 		s := response.Request.URL.String()
+		println(err.Error())
 		fmt.Printf("图片链接: %s 下载出错 %v......", s, err)
 	})
 	//获取标题
